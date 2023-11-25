@@ -90,18 +90,54 @@ var upperCasedCharacters = [
 
 // Function to prompt user for password options
 function getPasswordOptions() {
-
+var passwordlength = prompt("choose a length between 8 and 128 to create pasword");
+if(passwordlength < 8 || passwordlength > 128 || isNaN(passwordlength)) {
+  alert("Please enter a valid number between 8 and 128")
+  return;
+};
+var includecapitalLetters = confirm("Do you want to include Capital Letters?");
+var includelowercaseLetters = confirm("Do you want to include lower-case Letters?");
+var selectNumbers = confirm("Do you want to include numbers?");
+var includeSpecialCharachters = confirm("Do you want to include special charecters?");
+return (
+  {
+    includecapitalLetters,
+    includeSpecialCharachters,
+    selectNumbers,
+    includelowercaseLetters,
+    passwordlength
+  }
+)
 }
 
 // Function for getting a random element from an array
 function getRandom(arr) {
-
+var randomCharchter = arr[Math.floor(Math.random()*arr.length-1)]
+return randomCharchter;
 }
 
 // Function to generate password with user input
 function generatePassword() {
-
-}
+var paswordOptions = getPasswordOptions();
+var possibleCharchters = [];
+if(paswordOptions.includeSpecialCharachters){
+  possibleCharchters = possibleCharchters.concat(specialCharacters);
+};
+if(paswordOptions.includecapitalLetters){
+  possibleCharchters = possibleCharchters.concat(upperCasedCharacters);
+};
+if(paswordOptions.includelowercaseLetters){
+  possibleCharchters = possibleCharchters.concat(lowerCasedCharacters);
+};
+if(paswordOptions.selectNumbers){
+  possibleCharchters = possibleCharchters.concat(numericCharacters);
+};
+var finalPassword = ""
+for ( i = 0; i <= paswordOptions.passwordlength; i++){
+finalPassword += getRandom(possibleCharchters);
+};
+return finalPassword;
+};
 
 // Get references to the #generate element
 var generateBtn = document.querySelector('#generate');
